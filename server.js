@@ -1,12 +1,15 @@
-let express = require('express');
-let mongodb = require('mongodb');
-let sanitizeHTML = require('sanitize-html');
-let app = express();
-let db
+const express = require('express');
+const mongodb = require('mongodb');
+const sanitizeHTML = require('sanitize-html');
+const config = require('config');
+const app = express();
+const MONGODB_AUTH = config.get('mongodb_userpassword');
+const LOGIN_AUTH = config.get('login_userpassword');
+let db;
 
 app.use(express.static('public'));
 
-let connectionString = 'mongodb+srv://elvis0725:Sj6ESJiKmV7IEAYF@cluster0-nlkvn.mongodb.net/TodoApp?retryWrites=true&w=majority'
+let connectionString = `mongodb+srv://${MONGODB_AUTH}@cluster0-nlkvn.mongodb.net/TodoApp?retryWrites=true&w=majority`
 
 const port = process.env.PORT || 3000;
 mongodb.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true }, (err, client) => {
@@ -20,7 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 function passwordProtected(req, res, next) {
   res.set('WWW-Authenticate', 'Basic realm="Simple Todo App"');
   // console.log(req.headers.authorization) to see what you have inputed on the popup become
-  if(req.headers.authorization === 'Basic ZWx2aXNsZWUwNzI1OkFtYWxmaTE2MDEySUM=') {
+  if(req.headers.authorization === `Basic ${LOGIN_AUTH}`) {
     next();
   }
   else {

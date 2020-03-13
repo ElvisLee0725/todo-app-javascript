@@ -1,0 +1,4 @@
+{
+    "mongodb_userpassword": "TODOAPP_MONGODB_AUTH", 
+    "login_userpassword": "TODOAPP_LOGIN_AUTH"
+}
