@@ -22,7 +22,8 @@ app.use(express.urlencoded({ extended: false }));
 
 function passwordProtected(req, res, next) {
   res.set('WWW-Authenticate', 'Basic realm="Simple Todo App"');
-  // console.log(req.headers.authorization) to see what you have inputed on the popup become
+  // console.log(req.headers.authorization);
+  // to see what you have inputed on the popup become
   if(req.headers.authorization === `Basic ${LOGIN_AUTH}`) {
     next();
   }
